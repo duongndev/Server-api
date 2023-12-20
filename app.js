@@ -35,11 +35,10 @@ const categoryRouter = require('./src/router/categoryRouter');
 const productRouter = require('./src/router/productRouter');
 const userRouter = require('./src/router/userRouter');
 
-const api = '/api/v1';
-app.use(`${api}/auth`, authRouter);
-app.use(`${api}/category`, categoryRouter);
-app.use(`${api}/product`, productRouter);
-app.use(`${api}/user`, userRouter);
+app.use('/auth', authRouter);
+app.use('/category', categoryRouter);
+app.use('/product', productRouter);
+app.use('/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

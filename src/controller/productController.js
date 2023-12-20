@@ -89,10 +89,24 @@ const getProductById = async (req, res, next) => {
   }
 };
 
+const getAllProductsFeatured = async (req, res, next) => {
+  try {
+    const productFeatured = await Product.find({ isFeatured: true });
+    res.status(res.statusCode).json(productFeatured);
+  } catch (error) {
+    if (error instanceof createError) {
+      next(createError(error.status, error.message));
+      return;
+    }
+    next(error);
+  }
+}
+
 module.exports = {
   addProduct,
   updateProduct,
   deleteProduct,
   getAllProducts,
   getProductById,
+  getAllProductsFeatured
 };
