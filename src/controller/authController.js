@@ -34,7 +34,7 @@ const login = async (req, res, next) => {
 
     const vaildPassword = await bcrypt.hash(req.body.password, user.password);
     if(!vaildPassword) throw createError(400, 'Wrong password');
-
+    
     res.status(200).json(user);
 
   } catch (error) {

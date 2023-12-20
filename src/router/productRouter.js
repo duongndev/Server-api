@@ -17,14 +17,14 @@ const upload = multer({ storage: storage });
 
 router.get('/', productController.getAllProducts);
 
-router.get('/id/:id', productController.getProductById);
+router.get('/id=:id', productController.getProductById);
 
 router.get('/featured', productController.getAllProductsFeatured); 
 
 router.post('/addProduct', productController.addProduct);
 
-router.put('/:id', productController.updateProduct);
+router.put('/id=:id', productController.updateProduct);
 
-router.delete('/:id', productController.deleteProduct);
+router.delete('/id=:id', productController.deleteProduct);
 
 module.exports = router;

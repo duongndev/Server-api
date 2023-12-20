@@ -102,6 +102,19 @@ const getAllProductsFeatured = async (req, res, next) => {
   }
 }
 
+const getProductByStatus = async (req, res, next) => {
+  try {
+    const products = await Product.find({ status: req.params.status });
+    res.status(res.statusCode).json(products);
+  } catch (error) {
+    if (error instanceof createError) {
+      next(createError(error.status, error.message));
+      return;
+    }
+    next(error);
+  }
+}
+
 module.exports = {
   addProduct,
   updateProduct,
