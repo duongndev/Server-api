@@ -42,6 +42,11 @@ app.use('/product', productRouter);
 app.use('/user', userRouter);
 app.use('/cart', cartRouter);
 
+
+app.get('/', (req, res) => {
+  res.sendFile('error.html', { root: path.join(__dirname, 'views') });
+});
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404, 'Not Found'));
@@ -65,5 +70,5 @@ app.use((error, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log('Server is running on port ' + PORT);
-});
+  console.log(`Server running on port ${PORT}`);
+})
