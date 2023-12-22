@@ -91,7 +91,7 @@ const getProductById = async (req, res, next) => {
 
 const getAllProductsFeatured = async (req, res, next) => {
   try {
-    const productFeatured = await Product.find({ isFeatured: true });
+    const productFeatured = await Product.findOne({ isFeatured: true });
     res.status(res.statusCode).json(productFeatured);
   } catch (error) {
     if (error instanceof createError) {
