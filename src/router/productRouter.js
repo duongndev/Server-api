@@ -21,6 +21,8 @@ router.get('/id/:id', productController.getProductById);
 
 router.get('/featured', productController.getAllProductsFeatured); 
 
+router.get('/category/:category', productController.getProductByCategoryId);
+
 router.post('/addProduct', productController.addProduct);
 
 router.put('/:id', productController.updateProduct);

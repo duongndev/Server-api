@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
 const createError = require('http-errors');
 
-// Register a new user
 const register = async (req, res, next) => {
   try {
     const salt = await bcrypt.genSalt(10);
@@ -13,12 +12,13 @@ const register = async (req, res, next) => {
       email: req.body.email,
       password: hashedPassword,
     });
-
+    
     const user = await newUser.save();
     res.status(200).json(user);
   } catch (error) {
     if (error instanceof createError) {
-      next(createError(error.status, error.message));
+      const { status, message } = error;
+      next(createError(status, message));
       return;
     }
     next(error);
@@ -30,13 +30,16 @@ const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });
 
-    if (!user) throw createError(404, 'User not found');
+    if (!user) {
+      throw createError(404, 'User not found');
+    }
 
-    const vaildPassword = await bcrypt.hash(req.body.password, user.password);
-    if(!vaildPassword) throw createError(400, 'Wrong password');
-    
-    res.status(200).json(user);
+    const isValidPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!isValidPassword) {
+      throw createError(400, 'Wrong password');
+    }
 
+    res.json(user);
   } catch (error) {
     if (error instanceof createError) {
       next(createError(error.status, error.message));
@@ -48,17 +51,14 @@ const login = async (req, res, next) => {
 
 const loginAdmin = async (req, res, next) => {
   try {
-
     const user = await User.findOne({ email: req.body.email });
     if (!user) throw createError(404, 'User not found');
-
-    const vaildPassword = await bcrypt.hash(req.body.password, user.password);
-    if(!vaildPassword) throw createError(400, 'Wrong password');
+     const vaildPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!vaildPassword) throw createError(400, 'Wrong password');
 
     if (!user.isAdmin) throw createError(400, 'You are not an admin');
 
     res.status(200).json(user);
-
   } catch (error) {
     if (error instanceof createError) {
       next(createError(error.status, error.message));

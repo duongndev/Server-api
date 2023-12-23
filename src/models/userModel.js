@@ -15,6 +15,11 @@ const userSchema = mongoose.Schema({
   },
   phone: {
     type: String,
+    default: '',
+  },
+  address: {
+    type: String,
+    default: '',
   },
   avatar: {
     type: String,
@@ -23,9 +28,6 @@ const userSchema = mongoose.Schema({
   isAdmin: {
     type: Boolean,
     default: false,
-  },
-  address: {
-    type: String,
   },
 });
 

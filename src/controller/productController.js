@@ -6,7 +6,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/images'); // Tạo thư mục public/images 
+    cb(null, 'public/images'); // Tạo thư mục public/images
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -23,7 +23,7 @@ const addProduct = async (req, res, next) => {
       name: req.body.name,
       price: req.body.price,
       description: req.body.description,
-      category: req.body.category,
+      categoryId: req.body.categoryId,
       status: status,
     });
     const product = await newProduct.save();
@@ -100,7 +100,7 @@ const getAllProductsFeatured = async (req, res, next) => {
     }
     next(error);
   }
-}
+};
 
 const getProductByStatus = async (req, res, next) => {
   try {
@@ -113,7 +113,20 @@ const getProductByStatus = async (req, res, next) => {
     }
     next(error);
   }
-}
+};
+
+const getProductByCategoryId = async (req, res, next) => {
+  try {
+    const products = await Product.find({ categoryId: req.params.category });
+    res.json(products);
+  } catch (error) {
+    if (error instanceof createError) {
+      next(createError(error.status, error.message));
+      return;
+    }
+    next(error);
+  }
+};
 
 module.exports = {
   addProduct,
@@ -121,5 +134,6 @@ module.exports = {
   deleteProduct,
   getAllProducts,
   getProductById,
-  getAllProductsFeatured
+  getAllProductsFeatured,
+  getProductByCategoryId,
 };
